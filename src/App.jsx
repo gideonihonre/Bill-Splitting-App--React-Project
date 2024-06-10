@@ -196,11 +196,15 @@ const FormSplitBill = ({ selectedFriend, onSplitBill }) => {
       <input
         type="text"
         value={paidByUser}
-        onChange={(e) =>
-          setPaidByUser(
-            Number(e.target.value) > bill ? paidByUser : Number(e.target.value)
-          )
-        }
+        onChange={(e) => {
+          !isNaN(e.target.value) && e.target.value !== ""
+            ? setPaidByUser(
+                Number(e.target.value) > bill
+                  ? paidByUser
+                  : Number(e.target.value)
+              )
+            : setPaidByUser(paidByUser)
+        }}
       />
 
       <label>🧑‍🤝‍🧑 {selectedFriend.name}'s expense</label>
@@ -212,7 +216,7 @@ const FormSplitBill = ({ selectedFriend, onSplitBill }) => {
         onChange={(e) => setWhoIsPaying(e.target.value)}
       >
         <option value="user">You</option>
-        <option value="friend">X</option>
+        <option value="friend">{selectedFriend.name}</option>
       </select>
       <Button>Split bill</Button>
     </form>
